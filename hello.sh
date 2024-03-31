@@ -1,53 +1,6 @@
 #!/bin/bash
 
-# Main function
-main() {
-    echo "Select an option:"
-    echo "1. Clone repository"
-    echo "2. Update repository"
-    echo "3. hello"
 
-    read -p "Enter your choice: " choice
-
-    case $choice in
-        1) 
-            echo "Cloning repository..."
-            clone_repo
-            echo "Repository cloned successfully"
-            ;;
-        2) 
-            if check_repo_folder; then
-                echo "Repository folder exists"
-            else
-                echo "Repository folder not found. Please clone the repository first."
-                exit 1
-            fi
-
-            check_update
-            if [ $? -eq 0 ]; then
-                echo "Updating repository..."
-                update_repo
-                echo "Repository updated successfully"
-            else
-                echo "No updates needed"
-            fi
-            ;;
-            3) hello
-            ;;
-        *)
-            echo "Invalid choice. Exiting..."
-            exit 1
-            ;;
-    esac
-}
-
-hello() {
-    echo "Hello aj7"
-}
-
-#!/bin/bash
-
-REPO_URL="https://github.com/Aj-Seven/test.git"
 REPO_FOLDER="test"
 
 # Function to check if the repository folder exists
@@ -57,11 +10,6 @@ check_repo_folder() {
     else
         return 1 # Folder does not exist
     fi
-}
-
-# Function to clone the repository
-clone_repo() {
-    git clone $REPO_URL $REPO_FOLDER
 }
 
 # Function to check for updates in the repository
@@ -89,6 +37,55 @@ update_repo() {
     cd $REPO_FOLDER || exit 1
     git pull origin $(git rev-parse --abbrev-ref HEAD)
 }
+
+# Main function
+main() {
+    echo "Select an option:"
+    echo "1. Check update status"
+    echo "2. Update repository"
+    echo "3. hello"
+    echo "0. Exit"
+
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1) 
+            if check_repo_folder; then
+                check_update
+            else
+                echo "Repository folder not found. Please clone the repository first."
+            fi
+            ;;
+        2) 
+            if check_repo_folder; then
+                check_update
+                if [ $? -eq 0 ]; then
+                    echo "Updating repository..."
+                    update_repo
+                    echo "Repository updated successfully"
+                else
+                    echo "No updates needed"
+                fi
+            else
+                echo "Repository folder not found. Please clone the repository first."
+            fi
+            ;;
+        3) hello
+        ;;
+        0) 
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a number between 1 and 3."
+            ;;
+    esac
+}
+
+hello() {
+    echo "Hello aj7"
+}
+
 
 # Execute the main function
 main
