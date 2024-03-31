@@ -32,7 +32,7 @@ hello() {
 REPO_URL="https://github.com/Aj-Seven/test.git"
 
 # Define the directory where you want to clone the repository
-CLONE_DIR="~/.cache/test"
+CLONE_DIR="~/.cache/"
 
 # Function to update the repository
 update() {
