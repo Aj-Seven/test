@@ -33,7 +33,7 @@ check_update() {
 # Function to update the repository
 update_repo() {
     cd $REPO_FOLDER || exit 1
-    git pull origin $(git rev-parse --abbrev-ref HEAD)
+    git pull origin $(git rev-parse --abbrev-ref HEAD) | grep -E 'Updating|Already up to date'
 }
 
 # Main function
