@@ -40,6 +40,7 @@ update_repo() {
 
 # Main function
 main() {
+echo "REPO FOLDER: $REPO_FOLDER"
     echo "Select an option:"
     echo "1. Check update status"
     echo "2. Update repository"
