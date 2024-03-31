@@ -42,7 +42,7 @@ main() {
 }
 
 hello() {
-    echo "Hello World"
+    echo "Hello aj7"
 }
 
 #!/bin/bash
