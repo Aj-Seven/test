@@ -16,7 +16,7 @@ check_repo_folder() {
 check_update() {
     cd $REPO_FOLDER || exit 1
 
-    gut fetch origin
+    git fetch origin
     # Get the current branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
 
