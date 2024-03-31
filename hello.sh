@@ -64,7 +64,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
                     update_repo
                     echo "Repository updated successfully"
                 else
-                    echo "No updates needed"
+                    echo "up-to-date :)"
                 fi
             else
                 echo "Repository folder not found. Please clone the repository first."
