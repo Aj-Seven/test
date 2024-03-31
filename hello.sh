@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-REPO_FOLDER="test"
+REPO_FOLDER="~/test"
 
 # Function to check if the repository folder exists
 check_repo_folder() {
