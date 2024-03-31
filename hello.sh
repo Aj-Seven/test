@@ -45,6 +45,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
     echo "1. Check update status"
     echo "2. Update repository"
     echo "3. hello"
+    echo "4. hii"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -73,6 +74,8 @@ echo "REPO FOLDER: $REPO_FOLDER"
             ;;
         3) hello
         ;;
+        4) hii
+        ;;
         0) 
             echo "Exiting..."
             exit 0
@@ -87,6 +90,9 @@ hello() {
     echo "Hello aj7"
 }
 
+hii() {
+echo "Hii AJ7"
+}
 
 # Execute the main function
 main
