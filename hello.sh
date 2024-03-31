@@ -15,7 +15,8 @@ check_repo_folder() {
 # Function to check for updates in the repository
 check_update() {
     cd $REPO_FOLDER || exit 1
-    
+
+    gut fetch origin
     # Get the current branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
 
@@ -23,7 +24,6 @@ check_update() {
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
         echo "Updates available in $current_branch"
         return 0 # Updates available
-        git fetch origin
     else
         echo "No updates available in $current_branch"
         return 1 # No updates available
