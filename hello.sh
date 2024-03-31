@@ -60,7 +60,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
             if check_repo_folder; then
                 check_update
                 if [ $? -eq 0 ]; then
-                    echo "Updating repository..."
+                    echo "Updating..."
                     update_repo
                     echo "Repository updated successfully"
                 else
