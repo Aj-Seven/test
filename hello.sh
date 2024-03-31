@@ -33,7 +33,12 @@ check_update() {
 # Function to update the repository
 update_repo() {
     cd $REPO_FOLDER || exit 1
-    git pull origin $(git rev-parse --abbrev-ref HEAD) | grep -E 'Updating|Already up to date'
+     # Run git pull origin and parse the output to show only relevant lines
+    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
+        echo "$output"
+    else
+        echo "Error occurred while updating the repository"
+    fi
 }
 
 # Main function
