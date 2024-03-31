@@ -67,7 +67,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
                 if [ $? -eq 0 ]; then
                     echo "Updating..."
                     update_repo
-                    echo "Repository updated successfully"
+                    echo "updated successfully"
                 else
                     echo "up-to-date :)"
                 fi
