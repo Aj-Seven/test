@@ -43,7 +43,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
     echo "1. Check update status"
     echo "2. Update repository"
     echo "3. hello"
-    echo "4. hii"
+    echo "4. hII"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
