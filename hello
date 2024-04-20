@@ -20,8 +20,6 @@ update_repo() {
         else
             UPDATE_STATUS="failed"
         fi
-    else
-        UPDATE_STATUS="failed"
     fi
 }
 
