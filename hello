@@ -1,8 +1,41 @@
 #!/bin/bash
 
+# Function to update the repository
+update_repo() {
+    REPO_DIR="$PREFIX/share/test"
+    SCRIPT_NAME="hello"
+    BIN_DIR="$PREFIX/bin"
+
+    cd "$REPO_DIR" || exit 1
+    
+    # Run git pull origin and parse the output to show only relevant lines
+    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
+        echo "$output"
+        # Check if the script exists in the bin directory
+        if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
+            echo "Script linked to $BIN_DIR/$SCRIPT_NAME"
+        else
+            echo "Script not linked to $BIN_DIR/$SCRIPT_NAME"
+        fi
+    else
+        echo "Error occurred while updating the repository"
+    fi
+}
+
+# Function to print hello message
+hello() {
+    echo "Hello AJ07"
+}
+
+# Function to print hii message
+hii() {
+    echo "Hii AJ7"
+}
+
 # Function to check for updates in the repository
 check_update() {
-    REPO_DIR="$PREFIX/share/test"
+    echo "update:checking"
+     REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
     REPO_URL="https://github.com/Aj-Seven/test"
 
@@ -32,10 +65,17 @@ check_update() {
     else
         echo "Up-to-date in $current_branch"
     fi
+    sleep 2  # Simulating update check
+    if [ true ]; then
+        echo "update:up-to-date"
+    else
+        echo "update:failed"
+    fi
 }
 
 # Function to update the repository
 update_repo() {
+    echo "update:updating"
     REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
     BIN_DIR="$PREFIX/bin"
@@ -54,26 +94,19 @@ update_repo() {
     else
         echo "Error occurred while updating the repository"
     fi
-}
-
-# Function to show updated content without restarting the script
-auto() {
-    # Call main function
-    main
-}
-
-# Function to print hello message
-hello() {
-    echo "Hello AJ07"
-}
-
-# Function to print hii message
-hii() {
-    echo "Hii AJ7"
+    sleep 2  # Simulating update process
+    if [ true ]; then
+        echo "update:updated"
+    else
+        echo "update:failed"
+    fi
 }
 
 # Main function
 main() {
+    # Print update status
+    check_update
+
     echo "Select an option:"
     echo "1. Check update status"
     echo "2. Update repository"
@@ -100,6 +133,19 @@ main() {
             echo "Invalid choice. Please enter a number between 0 and 4."
             ;;
     esac
+
+    # Check if update is available and prompt user to update
+    if [ "$choice" != "0" ]; then
+        read -p "Press 'u' to update the script if update is available: " update_choice
+        if [ "$update_choice" == "u" ]; then
+            update_repo
+            # Check if update was successful, if so, re-execute the script
+            if [ "$?" == "0" ]; then
+                echo "Script updated successfully. Restarting..."
+                exec "$0"  # Restart the script
+            fi
+        fi
+    fi
 }
 
 # Execute the main function
