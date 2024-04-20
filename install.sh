@@ -8,8 +8,10 @@ install_script() {
     BIN_DIR="$PREFIX/bin"
     SCRIPT_PATH="$REPO_DIR/$SCRIPT_NAME"
 
-    # Delete the repository directory if it exists
-    rm -rf "$REPO_DIR" || true
+    if [[ (-L $PREFIX/bin/hello) && (-d $REPO_DIR) ]]; then
+        echo "Deleting files from previous installation..."
+        { rm -r $PREFIX/bin/hello $REPO_DIR; echo; }
+    fi
 
     # Clone the repository directory
     echo "Cloning repository directory..."
