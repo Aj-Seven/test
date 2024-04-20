@@ -7,35 +7,17 @@ REPO_URL="https://github.com/Aj-Seven/test"
 
 # Function to check for updates in the repository
 check_update() {
-    # Function to create the repository folder if it doesn't exist and clone the repository
-    create_repo_folder() {
-        if [ ! -d "$REPO_FOLDER" ]; then
-            mkdir -p "$REPO_FOLDER"
-        fi
-
-        if [ -d "$REPO_FOLDER/.git" ]; then
-            echo "Repository already exists in $REPO_FOLDER"
-        else
-            git clone "$REPO_URL" "$REPO_FOLDER"
-        fi
-    }
-
-    # Function to check if the repository folder exists
-    check_repo_folder() {
-        if [ -d "$REPO_FOLDER" ]; then
-            return 0 # Folder exists
-        else
-            return 1 # Folder does not exist
-        fi
-    }
-
-    create_repo_folder
     if [ ! -d "$REPO_FOLDER" ]; then
-        echo "Repository folder not found"
-        return 1
+        echo "Repository folder not found, attempting to clone..."
+        git clone "$REPO_URL" "$REPO_FOLDER" || { echo "Failed to clone repository"; exit 1; }
+        cd "$REPO_FOLDER" || exit 1
+    else
+        cd "$REPO_FOLDER" || exit 1
+        if [ ! -d ".git" ]; then
+            echo "Error: Not a Git repository"
+            return 1
+        fi
     fi
-
-    cd "$REPO_FOLDER" || exit 1
 
     git fetch origin > /dev/null 2>&1
     # Get the current branch
@@ -74,12 +56,6 @@ cleanup() {
 
 # Trap to ensure cleanup is called on script exit
 trap cleanup EXIT
-
-# Main script
-check_update || { echo "Failed to check for updates"; exit 1; }
-
-update_repo
-
 
 # Main function
 main() {
