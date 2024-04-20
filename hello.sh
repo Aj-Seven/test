@@ -17,19 +17,17 @@ check_update() {
             echo "Error: Not a Git repository"
             return 1
         fi
-    fi
-
-    git fetch origin > /dev/null 2>&1
-    # Get the current branch
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-
-    # Check if the local branch is behind the remote branch
-    if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        echo "Updates available in $current_branch"
-        return 0 # Updates available
-    else
-        echo "Up-to-date in $current_branch"
-        return 1 # No updates available
+        git fetch origin > /dev/null 2>&1
+        # Get the current branch
+        current_branch=$(git rev-parse --abbrev-ref HEAD)
+        # Check if the local branch is behind the remote branch
+        if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
+            echo "Updates available in $current_branch"
+            return 0 # Updates available
+        else
+            echo "Up-to-date in $current_branch"
+            return 1 # No updates available
+        fi
     fi
 }
 
@@ -39,9 +37,8 @@ update_repo() {
         echo "Repository folder not found"
         return 1
     fi
-
     cd "$REPO_FOLDER" || exit 1
-     # Run git pull origin and parse the output to show only relevant lines
+    # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin "$(git rev-parse --abbrev-ref HEAD)" 2>&1 | grep -E 'Updating|Already up to date'); then
         echo "$output"
     else
@@ -57,6 +54,7 @@ cleanup() {
 # Trap to ensure cleanup is called on script exit
 trap cleanup EXIT
 
+
 # Main function
 main() {
 echo "REPO FOLDER: $REPO_FOLDER"
@@ -70,15 +68,9 @@ echo "REPO FOLDER: $REPO_FOLDER"
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) 
-                check_update  || { echo "Failed to check for updates"; exit 1; }
+        1) check_update  || { echo "Failed to check for updates"; exit 1; }
             ;;
-        2) check_update || { echo "Failed to check for updates"; exit 1; }
-                if [ $? -eq 0 ]; then
-                    echo "Updating..."
-                    update_repo
-                    echo "updated successfully"
-                 fi
+        2) update_repo
                  ;;
         3) hello
         ;;
