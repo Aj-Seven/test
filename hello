@@ -35,7 +35,7 @@ hii() {
 
 # Function to check for updates in the repository
 check_update() {
-    echo "update:checking"
+    UPDATE_STATUS="checking"
      REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
     REPO_URL="https://github.com/Aj-Seven/test"
