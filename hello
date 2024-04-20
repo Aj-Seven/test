@@ -137,18 +137,12 @@ echo -e "$UPDATE_STATUS"
     esac
 }
 update() {
-    # Check if update is available and prompt user to update
-    if [ "$choice" != "0" ]; then
-        read -p "Press 'u' to update the script if update is available: " update_choice
-        if [ "$update_choice" == "u" ]; then
             update_repo &
             # Check if update was successful, if so, re-execute the script
             if [ "$?" == "0" ]; then
                 echo "Script updated successfully. Restarting..."
                 exec "$0"  # Restart the script
             fi
-        fi
-    fi
 }
 while true; do
 # Execute the main function
