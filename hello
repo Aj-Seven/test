@@ -93,6 +93,13 @@ main() {
             echo "Invalid choice. Please enter a number between 0 and 4."
             ;;
     esac
+  # Wait for background processes to finish
+    wait
+
+    # Update the status after background processes finish
+    echo -e "\n"
+    echo -e "UPDATE MONITOR:"
+    echo -e "$UPDATE_STATUS"
 }
 
 # Set the default PREFIX if not provided
