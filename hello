@@ -112,5 +112,6 @@ fi
 # Execute the main function in a loop
 while true; do
     check_update
+sleep 0.3
     main
 done
