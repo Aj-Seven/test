@@ -64,10 +64,7 @@ check_update() {
             n|N) echo "No updates applied";;
             *) echo "Invalid choice. No updates applied.";;
         esac
-    else
-        echo "Up-to-date in $current_branch"
     fi
-    sleep 2  # Simulating update check
     if [ true ]; then
         UPDATE_STATUS="up-to-date"
     else
