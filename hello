@@ -16,6 +16,7 @@ update_repo() {
         if echo "$output" | grep -q 'Already up to date'; then
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
+            sleep 0.1
             echo "updated"
             bash "$0" "$@"  # Restart the script after update
         else
