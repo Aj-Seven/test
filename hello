@@ -12,7 +12,7 @@ update_repo() {
     cd "$REPO_DIR" || exit 1
     
     # Run git pull origin and parse the output to show only relevant lines
-     if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1); then
+   if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1); then
         if echo "$output" | grep -q 'Already up to date'; then
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
@@ -21,6 +21,7 @@ update_repo() {
         else
             echo "Failed"
          fi
+        exec "$0"
     fi
 }
 
