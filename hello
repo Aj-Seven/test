@@ -120,7 +120,7 @@ echo -e "$UPDATE_STATUS"
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) check_update  || { echo "Failed to check for updates"; exit 1; }
+        1) check_update &  || { echo "Failed to check for updates"; exit 1; }
             ;;
         2) update_repo &
             ;;
