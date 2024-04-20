@@ -24,11 +24,9 @@ update_repo() {
         echo "ERROR"
     fi
     if [ true ]; then
-        sleep 0.3
         echo "updated"
         exit 0 && exec "$0"
     else
-        sleep 0.3
         echo "failed"
     fi
 }
@@ -63,10 +61,8 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-sleep 0.5
         echo "available"
     else
-sleep 0.5
         echo "up-to-date"
     fi
 }
