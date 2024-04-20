@@ -10,7 +10,7 @@ install_script() {
 
     if [[ (-L $PREFIX/bin/hello) && (-d $REPO_DIR) ]]; then
         echo "Deleting files from previous installation..."
-        { rm -r $PREFIX/bin/hello $REPO_DIR; echo; }
+        { rm -rf $PREFIX/bin/hello $REPO_DIR; echo; }
     fi
 
     # Clone the repository directory
