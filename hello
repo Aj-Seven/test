@@ -2,17 +2,18 @@
 
 # Function to check for updates in the repository
 check_update() {
-    REPO_FOLDER="$HOME/test"
+    REPO_DIR="$PREFIX/share/test"
+    SCRIPT_NAME="your_script.sh"
     REPO_URL="https://github.com/Aj-Seven/test"
 
     # Check if the repository folder exists
-    if [ ! -d "$REPO_FOLDER" ]; then
+    if [ ! -d "$REPO_DIR" ]; then
         echo "Repository folder not found, cloning repository..."
-        git clone "$REPO_URL" "$REPO_FOLDER" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
+        git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
     fi
 
     # Fetch updates forcefully
-    cd "$REPO_FOLDER" || exit 1
+    cd "$REPO_DIR" || exit 1
     git fetch --force origin > /dev/null 2>&1
 
     # Get the current branch
@@ -35,11 +36,21 @@ check_update() {
 
 # Function to update the repository
 update_repo() {
-    cd "$REPO_FOLDER" || exit 1
+    REPO_DIR="$PREFIX/share/test"
+    SCRIPT_NAME="your_script.sh"
+    BIN_DIR="$PREFIX/bin"
+
+    cd "$REPO_DIR" || exit 1
+    
     # Run git pull origin and parse the output to show only relevant lines
-    if output=$(git pull origin "$(git rev-parse --abbrev-ref HEAD)" 2>&1 | grep -E 'Updating|Already up to date'); then
+    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
         echo "$output"
-        auto
+        # Check if the script exists in the bin directory
+        if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
+            echo "Script linked to $BIN_DIR/$SCRIPT_NAME"
+        else
+            echo "Script not linked to $BIN_DIR/$SCRIPT_NAME"
+        fi
     else
         echo "Error occurred while updating the repository"
     fi
