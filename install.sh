@@ -10,7 +10,8 @@ install_script() {
 
    
     echo "Deleting files from previous installation..."
-    rm -rf $PREFIX/bin/hello $REPO_DIR || true
+    rm -r $PREFIX/bin/hello || true 
+    rm -rf $REPO_DIR || true
 
     # Clone the repository directory
     echo "Cloning repository directory..."
