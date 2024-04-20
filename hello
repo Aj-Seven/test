@@ -64,7 +64,7 @@ auto() {
 
 # Function to print hello message
 hello() {
-    echo "Hello AJseven"
+    echo "Hello AJ07"
 }
 
 # Function to print hii message
