@@ -1,11 +1,18 @@
+
 #!/bin/bash
 
 # Function to clone the repository directory and put a copy of the script inside it
 install_script() {
     REPO_URL="https://github.com/Aj-Seven/test"
     REPO_DIR="$HOME/test"
-    SCRIPT_NAME="your_script.sh"
+    SCRIPT_NAME="hello"
     BIN_DIR="$HOME/.local/bin"
+
+    # Check if the repository directory exists
+    if [ -d "$REPO_DIR" ]; then
+        echo "Removing existing repository directory..."
+        rm -rf "$REPO_DIR" || { echo "Failed to remove existing repository directory"; exit 1; }
+    fi
 
     # Clone the repository directory
     echo "Cloning repository directory..."
