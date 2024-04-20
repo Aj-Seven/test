@@ -56,10 +56,8 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        sleep 3
         UPDATE_STATUS="available"
     else
-        sleep 3
         UPDATE_STATUS="up-to-date"
     fi
 }
