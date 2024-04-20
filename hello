@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# Global variable to store update status
 UPDATE_STATUS=""
+
 # Function to update the repository
 update_repo() {
+    UPDATE_STATUS="updating"
     REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
     BIN_DIR="$PREFIX/bin"
@@ -11,15 +14,14 @@ update_repo() {
     
     # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
-        echo "$output"
         # Check if the script exists in the bin directory
         if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-            echo "Successfully installed the script."
+            UPDATE_STATUS="updated"
         else
-            echo "Script Not Installed"
+            UPDATE_STATUS="failed"
         fi
     else
-        echo "Error occurred while updating the repository"
+        UPDATE_STATUS="failed"
     fi
 }
 
@@ -36,18 +38,17 @@ hii() {
 # Function to check for updates in the repository
 check_update() {
     UPDATE_STATUS="checking"
-     REPO_DIR="$PREFIX/share/test"
+    REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
     REPO_URL="https://github.com/Aj-Seven/test"
 
     # Check if the repository folder exists
     if [ ! -d "$REPO_DIR" ]; then
-        echo "Repository folder not found, cloning repository..."
-        git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
+        git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { UPDATE_STATUS="failed"; return; }
     fi
 
     # Fetch updates forcefully
-    cd "$REPO_DIR" || exit 1
+    cd "$REPO_DIR" || { UPDATE_STATUS="failed"; return; }
     git fetch --force origin > /dev/null 2>&1
 
     # Get the current branch
@@ -55,58 +56,18 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        UPDATE_STATUS="Updates Available"
-        echo "Updates available in $current_branch"
-        # Ask the user if they want to update the script
-        read -p "Do you want to update the script? (Y/N): " choice
-        case "$choice" in
-            y|Y) update_repo ;;
-            n|N) echo "No updates applied";;
-            *) echo "Invalid choice. No updates applied.";;
-        esac
-    fi
-    if [ true ]; then
+        UPDATE_STATUS="available"
+    else
         UPDATE_STATUS="up-to-date"
-    else
-        UPDATE_STATUS="failed"
-    fi
-}
-
-# Function to update the repository
-update_repo() {
-    echo "update:updating"
-    REPO_DIR="$PREFIX/share/test"
-    SCRIPT_NAME="hello"
-    BIN_DIR="$PREFIX/bin"
-
-    cd "$REPO_DIR" || exit 1
-    
-    # Run git pull origin and parse the output to show only relevant lines
-    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
-        echo "$output"
-        # Check if the script exists in the bin directory
-        if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-            echo "Script Updated Successfully..."
-        else
-            echo "Script Failed to Update..."
-        fi
-    else
-        echo "Error occurred while updating the repository"
-    fi
-    sleep 1  # Simulating update process
-    if [ true ]; then
-        UPDATE_STATUS="updated"
-        exec "$0"
-    else
-        UPDATE_STATUS="failed"
     fi
 }
 
 # Main function
 main() {
 
-echo -e "UPDATE MONITOR:"
-echo -e "$UPDATE_STATUS"
+    echo -e "\n"
+    echo -e "UPDATE MONITOR:"
+    echo -e "$UPDATE_STATUS"
 
     echo "Select an option:"
     echo "1. Check update status"
@@ -122,10 +83,8 @@ echo -e "$UPDATE_STATUS"
             ;;
         2) update_repo &
             ;;
-        3) hello
-            ;;
-        4) hii
-            ;;
+        3) hello ;;
+        4) hii ;;
         0)
             echo "Exiting..."
             exit 0
@@ -136,7 +95,12 @@ echo -e "$UPDATE_STATUS"
     esac
 }
 
+# Set the default PREFIX if not provided
+if [ -z "$PREFIX" ]; then
+    PREFIX="/data/data/com.termux/files/usr/"
+fi
+
+# Execute the main function in a loop
 while true; do
-# Execute the main function
-main
+    main
 done
