@@ -150,6 +150,7 @@ update() {
         fi
     fi
 }
-
+while true; do
 # Execute the main function
 main
+done
