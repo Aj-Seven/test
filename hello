@@ -18,7 +18,7 @@ update_repo() {
         elif echo "$output" | grep -q 'Updating'; then
             sleep 0.1
             echo "updated"
-            bash "$0" "$@"  # Restart the script after update
+            exec "$BASH_SOURCE" "$@"  # Restart the script after update
         else
             echo "Failed"
          fi
