@@ -1,42 +1,41 @@
 #!/bin/bash
 
-# Create a temporary directory for the repository
-temp_dir=$(mktemp -d)
-REPO_FOLDER="$temp_dir/test"
-REPO_URL="https://github.com/Aj-Seven/test"
-
-# Function to check for updates in the repository
+# Function to clone the repository into a temporary folder and check for updates
 check_update() {
-    if [ ! -d "$REPO_FOLDER" ]; then
-        echo "Repository folder not found, attempting to clone..."
-        git clone "$REPO_URL" "$REPO_FOLDER" || { echo "Failed to clone repository"; exit 1; }
-        cd "$REPO_FOLDER" || exit 1
+    # Create a temporary directory for the repository
+    temp_dir=$(mktemp -d)
+    REPO_FOLDER="$temp_dir/test"
+    REPO_URL="https://github.com/Aj-Seven/test"
+
+    # Clone the repository
+    echo "Cloning repository into temporary folder..."
+    git clone "$REPO_URL" "$REPO_FOLDER" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
+    cd "$REPO_FOLDER" || exit 1
+
+    # Check for updates
+    git fetch origin > /dev/null 2>&1
+    # Get the current branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    # Check if the local branch is behind the remote branch
+    if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
+        echo "Updates available in $current_branch"
+        # Ask the user if they want to update the script
+        read -p "Do you want to update the script? (Y/N): " choice
+        case "$choice" in
+            y|Y) update_repo ;;
+            n|N) echo "No updates applied";;
+            *) echo "Invalid choice. No updates applied.";;
+        esac
     else
-        cd "$REPO_FOLDER" || exit 1
-        if [ ! -d ".git" ]; then
-            echo "Error: Not a Git repository"
-            return 1
-        fi
-        git fetch origin > /dev/null 2>&1
-        # Get the current branch
-        current_branch=$(git rev-parse --abbrev-ref HEAD)
-        # Check if the local branch is behind the remote branch
-        if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-            echo "Updates available in $current_branch"
-            return 0 # Updates available
-        else
-            echo "Up-to-date in $current_branch"
-            return 1 # No updates available
-        fi
+        echo "Up-to-date in $current_branch"
     fi
+
+    # Cleanup temporary directory
+    rm -rf "$temp_dir"
 }
 
 # Function to update the repository
 update_repo() {
-    if [ ! -d "$REPO_FOLDER" ]; then
-        echo "Repository folder not found"
-        return 1
-    fi
     cd "$REPO_FOLDER" || exit 1
     # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin "$(git rev-parse --abbrev-ref HEAD)" 2>&1 | grep -E 'Updating|Already up to date'); then
@@ -45,15 +44,6 @@ update_repo() {
         echo "Error occurred while updating the repository"
     fi
 }
-
-# Cleanup function to remove the temporary directory when the script exits
-cleanup() {
-    rm -rf "$temp_dir"
-}
-
-# Trap to ensure cleanup is called on script exit
-trap cleanup EXIT
-
 
 # Main function
 main() {
