@@ -55,6 +55,7 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
+        UPDATE_STATUS="Updates Available"
         echo "Updates available in $current_branch"
         # Ask the user if they want to update the script
         read -p "Do you want to update the script? (Y/N): " choice
@@ -120,7 +121,7 @@ echo -e "$UPDATE_STATUS"
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) check_update &  || { echo "Failed to check for updates"; exit 1; }
+        1) check_update &
             ;;
         2) update_repo &
             ;;
