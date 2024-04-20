@@ -16,10 +16,10 @@ update_repo() {
     if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
         # Check if the script exists in the bin directory
         if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-sleep 3
+sleep 0.5
             echo "updated"
         else
-sleep 3
+sleep 0.5
             echo "failed"
         fi
     fi
@@ -56,10 +56,10 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-sleep 3
+sleep 0.5
         echo "available"
     else
-sleep 3
+sleep 0.5
         echo "up-to-date"
     fi
 }
