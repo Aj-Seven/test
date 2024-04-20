@@ -14,7 +14,7 @@ update_repo() {
     # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
              echo "updated"
-             bash "$0"
+             exit 0 && bash "$0"
     else
         echo "ERROR"
     fi
