@@ -111,6 +111,6 @@ fi
 
 # Execute the main function in a loop
 while true; do
-    check_update
+    CHECK_UPDATE=$(check_update) &
     main
 done
