@@ -15,13 +15,12 @@ update_repo() {
      if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1); then
         if echo "$output" | grep -q 'Already up to date'; then
             echo "up-to-date"
-        else echo "$output" | grep -q 'Updating'; then
+        elif echo "$output" | grep -q 'Updating'; then
             echo "updated"
             bash "$0" "$@"  # Restart the script after update
-        fi
-    else
-        echo "Error occurred while updating the repository"
-        UPDATE_STATUS="failed"
+        else
+            echo "Failed"
+         fi
     fi
 }
 
