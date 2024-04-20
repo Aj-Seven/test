@@ -37,7 +37,6 @@ hii() {
 
 # Function to check for updates in the repository
 check_update() {
-    sleep 3
     UPDATE_STATUS="checking"
     REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
@@ -82,9 +81,9 @@ main() {
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) check_update &
+        1) UPDATE_STATUS=$(check_update)
             ;;
-        2) update_repo &
+        2) UPDATE_STATUS=$(update_repo)
             ;;
         3) hello ;;
         4) hii ;;
@@ -96,10 +95,6 @@ main() {
             echo "Invalid choice. Please enter a number between 0 and 4."
             ;;
     esac
-  # Wait for background processes to finish
-    wait
-
-    # Update the status after background processes finish
     echo -e "\n"
     echo -e "UPDATE MONITOR:"
     echo -e "$UPDATE_STATUS"
