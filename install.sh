@@ -2,7 +2,7 @@
 
 # Function to move script to bin directory and set executable permissions
 install_script() {
-    SCRIPT_NAME="your_script.sh"
+    SCRIPT_NAME="hello"
     BIN_DIR="$HOME/.local/bin"
     SCRIPT_PATH=$(realpath "$SCRIPT_NAME")
 
