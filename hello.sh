@@ -1,21 +1,25 @@
 #!/bin/bash
 
-# Function to clone the repository into a temporary folder and check for updates
+# Function to check for updates in the repository
 check_update() {
-    # Create a temporary directory for the repository
+    # Create a temporary directory for fetching updates
     temp_dir=$(mktemp -d)
     REPO_FOLDER="$temp_dir/test"
     REPO_URL="https://github.com/Aj-Seven/test"
 
-    # Clone the repository
-    echo "Cloning repository into temporary folder..."
-    git clone "$REPO_URL" "$REPO_FOLDER" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
-    cd "$REPO_FOLDER" || exit 1
+    # Check if the repository folder exists
+    if [ ! -d "$REPO_FOLDER" ]; then
+        echo "Repository folder not found, cloning repository..."
+        git clone "$REPO_URL" "$REPO_FOLDER" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
+    fi
 
-    # Check for updates
-    git fetch origin > /dev/null 2>&1
+    # Fetch updates forcefully into the temporary folder
+    cd "$REPO_FOLDER" || exit 1
+    git fetch --force origin > /dev/null 2>&1
+
     # Get the current branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
+
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
         echo "Updates available in $current_branch"
@@ -30,7 +34,7 @@ check_update() {
         echo "Up-to-date in $current_branch"
     fi
 
-    # Cleanup temporary directory
+    # Remove the temporary directory
     rm -rf "$temp_dir"
 }
 
