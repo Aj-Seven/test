@@ -9,8 +9,8 @@ install_script() {
     SCRIPT_PATH="$REPO_DIR/$SCRIPT_NAME"
 
    
-        echo "Deleting files from previous installation..."
-        { rm -rf $PREFIX/bin/hello $REPO_DIR; echo; }
+    echo "Deleting files from previous installation..."
+    rm -rf $PREFIX/bin/hello $REPO_DIR || true
 
     # Clone the repository directory
     echo "Cloning repository directory..."
