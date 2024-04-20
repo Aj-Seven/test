@@ -13,9 +13,9 @@ update_repo() {
         echo "$output"
         # Check if the script exists in the bin directory
         if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-            echo "Script linked to $BIN_DIR/$SCRIPT_NAME"
+            echo "Successfully installed the script."
         else
-            echo "Script not linked to $BIN_DIR/$SCRIPT_NAME"
+            echo "Script Not Installed"
         fi
     else
         echo "Error occurred while updating the repository"
