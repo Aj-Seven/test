@@ -77,7 +77,7 @@ echo "REPO FOLDER: $REPO_FOLDER"
 
 hello() {
     echo "Hello AJseven"
-    echo "test"
+ 
 }
 
 hii() {
