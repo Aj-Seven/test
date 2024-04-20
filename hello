@@ -1,5 +1,6 @@
 #!/bin/bash
 
+UPDATE_STATUS=""
 # Function to update the repository
 update_repo() {
     REPO_DIR="$PREFIX/share/test"
@@ -67,9 +68,9 @@ check_update() {
     fi
     sleep 2  # Simulating update check
     if [ true ]; then
-        echo "update:up-to-date"
+        UPDATE_STATUS="up-to-date"
     else
-        echo "update:failed"
+        UPDATE_STATUS="failed"
     fi
 }
 
@@ -96,16 +97,17 @@ update_repo() {
     fi
     sleep 2  # Simulating update process
     if [ true ]; then
-        echo "update:updated"
+        UPDATE_STATUS="updated"
     else
-        echo "update:failed"
+        UPDATE_STATUS="failed"
     fi
 }
 
 # Main function
 main() {
-    # Print update status
-    check_update
+
+echo -e "UPDATE MONITOR:"
+echo -e "$UPDATE_STATUS"
 
     echo "Select an option:"
     echo "1. Check update status"
@@ -139,7 +141,7 @@ update() {
     if [ "$choice" != "0" ]; then
         read -p "Press 'u' to update the script if update is available: " update_choice
         if [ "$update_choice" == "u" ]; then
-            update_repo
+            update_repo &
             # Check if update was successful, if so, re-execute the script
             if [ "$?" == "0" ]; then
                 echo "Script updated successfully. Restarting..."
