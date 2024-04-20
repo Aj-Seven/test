@@ -13,20 +13,10 @@ update_repo() {
     
     # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
-        # Check if the script exists in the bin directory
-        if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-            echo "Script Updated Successfully..."
-        else
-            echo "Script Failed to Update..."
-        fi
+             echo "updated"
+               exit 0 && exec "$0"
     else
         echo "ERROR"
-    fi
-    if [ true ]; then
-        echo "updated"
-        exit 0 && exec "$0"
-    else
-        echo "failed"
     fi
 }
 
