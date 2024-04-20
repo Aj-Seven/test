@@ -3,7 +3,7 @@
 # Function to check for updates in the repository
 check_update() {
     REPO_DIR="$PREFIX/share/test"
-    SCRIPT_NAME="your_script.sh"
+    SCRIPT_NAME="hello"
     REPO_URL="https://github.com/Aj-Seven/test"
 
     # Check if the repository folder exists
