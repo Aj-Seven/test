@@ -39,14 +39,30 @@ update_repo() {
     # Run git pull origin and parse the output to show only relevant lines
     if output=$(git pull origin "$(git rev-parse --abbrev-ref HEAD)" 2>&1 | grep -E 'Updating|Already up to date'); then
         echo "$output"
+        auto
     else
         echo "Error occurred while updating the repository"
     fi
 }
 
+# Function to show updated content without restarting the script
+auto() {
+    # Call main function
+    main
+}
+
+# Function to print hello message
+hello() {
+    echo "Hello AJseven"
+}
+
+# Function to print hii message
+hii() {
+    echo "Hii AJ7"
+}
+
 # Main function
 main() {
-echo "REPO FOLDER: $REPO_FOLDER"
     echo "Select an option:"
     echo "1. Check update status"
     echo "2. Update repository"
@@ -60,28 +76,19 @@ echo "REPO FOLDER: $REPO_FOLDER"
         1) check_update  || { echo "Failed to check for updates"; exit 1; }
             ;;
         2) update_repo
-                 ;;
+            ;;
         3) hello
-        ;;
+            ;;
         4) hii
-        ;;
-        0) 
+            ;;
+        0)
             echo "Exiting..."
             exit 0
             ;;
         *)
-            echo "Invalid choice. Please enter a number between 1 and 3."
+            echo "Invalid choice. Please enter a number between 0 and 4."
             ;;
     esac
-}
-
-hello() {
-    echo "Hello AJseven"
- 
-}
-
-hii() {
-echo "Hii AJ7"
 }
 
 # Execute the main function
