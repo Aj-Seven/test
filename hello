@@ -17,7 +17,7 @@ update_repo() {
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
             echo "updated"
-            exit 0 && hello
+            exit 0
         else
             echo "Failed"
          fi
