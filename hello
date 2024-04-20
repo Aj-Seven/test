@@ -37,7 +37,7 @@ check_update() {
 # Function to update the repository
 update_repo() {
     REPO_DIR="$PREFIX/share/test"
-    SCRIPT_NAME="your_script.sh"
+    SCRIPT_NAME="hello"
     BIN_DIR="$PREFIX/bin"
 
     cd "$REPO_DIR" || exit 1
