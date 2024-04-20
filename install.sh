@@ -3,19 +3,19 @@
 # Function to clone the repository directory and put a copy of the script inside the bin directory
 install_script() {
     REPO_URL="https://github.com/Aj-Seven/test"
-    REPO_DIR="$HOME/test"
+    REPO_DIR="$HOME/.local/test"
     SCRIPT_NAME="hello"
     BIN_DIR="$HOME/.local/bin"
-
-    # Check if the repository directory exists
-    if [ -d "$REPO_DIR" ]; then
-        echo "Removing existing repository directory..."
-        rm -rf "$REPO_DIR" || { echo "Failed to remove existing repository directory"; exit 1; }
-    fi
 
     # Clone the repository directory
     echo "Cloning repository directory..."
     git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { echo "Failed to clone repository directory"; exit 1; }
+
+    # Check if the script file exists in the repository directory
+    if [ ! -f "$REPO_DIR/$SCRIPT_NAME" ]; then
+        echo "Script file $SCRIPT_NAME not found in the repository directory."
+        exit 1
+    fi
 
     # Copy the script to the bin directory
     echo "Copying script to the bin directory..."
@@ -29,3 +29,4 @@ install_script() {
 
 # Execute the install_script function
 install_script
+
