@@ -89,16 +89,16 @@ update_repo() {
         # Check if the script exists in the bin directory
         if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
             echo "Script Updated Successfully..."
-            exec "$0"
         else
             echo "Script Failed to Update..."
         fi
     else
         echo "Error occurred while updating the repository"
     fi
-    sleep 2  # Simulating update process
+    sleep 1  # Simulating update process
     if [ true ]; then
         UPDATE_STATUS="updated"
+        exec "$0"
     else
         UPDATE_STATUS="failed"
     fi
