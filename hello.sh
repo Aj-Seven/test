@@ -1,20 +1,41 @@
 #!/bin/bash
 
-
-REPO_FOLDER="/home/$USER/test"
-
-# Function to check if the repository folder exists
-check_repo_folder() {
-    if [ -d "$REPO_FOLDER" ]; then
-        return 0 # Folder exists
-    else
-        return 1 # Folder does not exist
-    fi
-}
+# Create a temporary directory for the repository
+temp_dir=$(mktemp -d)
+REPO_FOLDER="$temp_dir/test"
+REPO_URL="https://github.com/Aj-Seven/test"
 
 # Function to check for updates in the repository
 check_update() {
-    cd $REPO_FOLDER || exit 1
+    # Function to create the repository folder if it doesn't exist and clone the repository
+    create_repo_folder() {
+        if [ ! -d "$REPO_FOLDER" ]; then
+            mkdir -p "$REPO_FOLDER"
+        fi
+
+        if [ -d "$REPO_FOLDER/.git" ]; then
+            echo "Repository already exists in $REPO_FOLDER"
+        else
+            git clone "$REPO_URL" "$REPO_FOLDER"
+        fi
+    }
+
+    # Function to check if the repository folder exists
+    check_repo_folder() {
+        if [ -d "$REPO_FOLDER" ]; then
+            return 0 # Folder exists
+        else
+            return 1 # Folder does not exist
+        fi
+    }
+
+    create_repo_folder
+    if [ ! -d "$REPO_FOLDER" ]; then
+        echo "Repository folder not found"
+        return 1
+    fi
+
+    cd "$REPO_FOLDER" || exit 1
 
     git fetch origin > /dev/null 2>&1
     # Get the current branch
@@ -25,21 +46,40 @@ check_update() {
         echo "Updates available in $current_branch"
         return 0 # Updates available
     else
-        echo "No updates available in $current_branch"
+        echo "Up-to-date in $current_branch"
         return 1 # No updates available
     fi
 }
 
 # Function to update the repository
 update_repo() {
-    cd $REPO_FOLDER || exit 1
+    if [ ! -d "$REPO_FOLDER" ]; then
+        echo "Repository folder not found"
+        return 1
+    fi
+
+    cd "$REPO_FOLDER" || exit 1
      # Run git pull origin and parse the output to show only relevant lines
-    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1 | grep -E 'Updating|Already up to date'); then
+    if output=$(git pull origin "$(git rev-parse --abbrev-ref HEAD)" 2>&1 | grep -E 'Updating|Already up to date'); then
         echo "$output"
     else
         echo "Error occurred while updating the repository"
     fi
 }
+
+# Cleanup function to remove the temporary directory when the script exits
+cleanup() {
+    rm -rf "$temp_dir"
+}
+
+# Trap to ensure cleanup is called on script exit
+trap cleanup EXIT
+
+# Main script
+check_update || { echo "Failed to check for updates"; exit 1; }
+
+update_repo
+
 
 # Main function
 main() {
@@ -55,26 +95,15 @@ echo "REPO FOLDER: $REPO_FOLDER"
 
     case $choice in
         1) 
-            if check_repo_folder; then
-                check_update
-            else
-                echo "Repository folder not found. Please clone the repository first."
-            fi
+                check_update  || { echo "Failed to check for updates"; exit 1; }
             ;;
-        2) 
-            if check_repo_folder; then
-                check_update
+        2) check_update || { echo "Failed to check for updates"; exit 1; }
                 if [ $? -eq 0 ]; then
                     echo "Updating..."
                     update_repo
                     echo "updated successfully"
-                else
-                    echo "up-to-date :)"
-                fi
-            else
-                echo "Repository folder not found. Please clone the repository first."
-            fi
-            ;;
+                 fi
+                 ;;
         3) hello
         ;;
         4) hii
