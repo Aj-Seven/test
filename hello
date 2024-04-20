@@ -88,9 +88,10 @@ update_repo() {
         echo "$output"
         # Check if the script exists in the bin directory
         if [ -L "$BIN_DIR/$SCRIPT_NAME" ]; then
-            echo "Script linked to $BIN_DIR/$SCRIPT_NAME"
+            echo "Script Updated Successfully..."
+            exec "$0"
         else
-            echo "Script not linked to $BIN_DIR/$SCRIPT_NAME"
+            echo "Script Failed to Update..."
         fi
     else
         echo "Error occurred while updating the repository"
@@ -121,7 +122,7 @@ echo -e "$UPDATE_STATUS"
     case $choice in
         1) check_update  || { echo "Failed to check for updates"; exit 1; }
             ;;
-        2) update
+        2) update_repo &
             ;;
         3) hello
             ;;
@@ -136,14 +137,7 @@ echo -e "$UPDATE_STATUS"
             ;;
     esac
 }
-update() {
-            update_repo &
-            # Check if update was successful, if so, re-execute the script
-            if [ "$?" == "0" ]; then
-                echo "Script updated successfully. Restarting..."
-                exec "$0"  # Restart the script
-            fi
-}
+
 while true; do
 # Execute the main function
 main
