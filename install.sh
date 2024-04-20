@@ -1,7 +1,6 @@
-
 #!/bin/bash
 
-# Function to clone the repository directory and put a copy of the script inside it
+# Function to clone the repository directory and put a copy of the script inside the bin directory
 install_script() {
     REPO_URL="https://github.com/Aj-Seven/test"
     REPO_DIR="$HOME/test"
@@ -18,14 +17,14 @@ install_script() {
     echo "Cloning repository directory..."
     git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { echo "Failed to clone repository directory"; exit 1; }
 
-    # Copy the script to the repository directory
-    echo "Copying script to the repository directory..."
-    cp "$BIN_DIR/$SCRIPT_NAME" "$REPO_DIR" || { echo "Failed to copy script to the repository directory"; exit 1; }
+    # Copy the script to the bin directory
+    echo "Copying script to the bin directory..."
+    cp "$REPO_DIR/$SCRIPT_NAME" "$BIN_DIR" || { echo "Failed to copy script to the bin directory"; exit 1; }
 
     # Set executable permissions for the copied script
-    chmod +x "$REPO_DIR/$SCRIPT_NAME" || { echo "Failed to set executable permissions for the copied script"; exit 1; }
+    chmod +x "$BIN_DIR/$SCRIPT_NAME" || { echo "Failed to set executable permissions for the copied script"; exit 1; }
 
-    echo "Script installed to $REPO_DIR/$SCRIPT_NAME"
+    echo "Script installed to $BIN_DIR/$SCRIPT_NAME"
 }
 
 # Execute the install_script function
