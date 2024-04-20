@@ -8,14 +8,15 @@ check_update() {
     REPO_URL="https://github.com/Aj-Seven/test"
 
     # Check if the repository folder exists
-    if [ ! -d "$REPO_FOLDER" ]; then
+    if [ -d "$REPO_FOLDER" ]; then
+        # Fetch updates forcefully into the existing repository folder
+        cd "$REPO_FOLDER" || exit 1
+        git fetch --force origin > /dev/null 2>&1
+    else
+        # Clone the repository if it doesn't exist
         echo "Repository folder not found, cloning repository..."
         git clone "$REPO_URL" "$REPO_FOLDER" > /dev/null 2>&1 || { echo "Failed to clone repository"; exit 1; }
     fi
-
-    # Fetch updates forcefully into the temporary folder
-    cd "$REPO_FOLDER" || exit 1
-    git fetch --force origin > /dev/null 2>&1
 
     # Get the current branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
