@@ -119,7 +119,7 @@ main() {
     case $choice in
         1) check_update  || { echo "Failed to check for updates"; exit 1; }
             ;;
-        2) update_repo
+        2) update
             ;;
         3) hello
             ;;
@@ -133,7 +133,8 @@ main() {
             echo "Invalid choice. Please enter a number between 0 and 4."
             ;;
     esac
-
+}
+update() {
     # Check if update is available and prompt user to update
     if [ "$choice" != "0" ]; then
         read -p "Press 'u' to update the script if update is available: " update_choice
