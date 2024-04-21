@@ -17,17 +17,11 @@ update_repo() {
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
             echo "updated"
-            return 0
+            echo "Restart the script"
             exit 1
         else
             echo "Failed"
          fi
-fi
-}
-
-check_update_status() {
-    if update_repo; then
-        echo "Updated the script, Restart the script to make changes"
 fi
 }
 
@@ -108,7 +102,6 @@ fi
 # Execute the main function in a loop
 while true; do
     main
-check_update_status
 done
 
 
