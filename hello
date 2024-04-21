@@ -16,8 +16,11 @@ update_repo() {
         if echo "$output" | grep -q 'Already up to date'; then
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
-            echo "updated,Restarting"
-            exit 0
+            echo "updated"
+        # Set UPDATE_STATUS to "updated"
+        UPDATE_STATUS="updated"
+        # Re-execute the script
+        exec bash "$0" "$@"
         else
             echo "Failed"
          fi
