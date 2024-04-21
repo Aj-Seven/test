@@ -14,9 +14,9 @@ update_repo() {
     # Run git pull origin and parse the output to show only relevant lines
    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1); then
         if echo "$output" | grep -q 'Already up to date'; then
-            UPDATE_STATUS=$(echo "up-to-date")
+            echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
-            UPDATE_STATUS=$(echo "updated")
+            echo "updated"
             echo "Restart the script"
             exit 1
         else
@@ -55,7 +55,7 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        UPDATE_STATUS=$(echo "available")
+        echo "available"
         clear
         printf "Updates Available :)"
         read -p "Do yout want to update it(Y/N)?" select
@@ -69,10 +69,10 @@ check_update() {
             ;;
         esac
     else
-        UPDATE_STATUS=$(echo "up-to-date")
+        echo "up-to-date"
     fi 
 }
-check_status
+UPDATE_STATUS=$(check_status)
 # Main function
 main() {
 
