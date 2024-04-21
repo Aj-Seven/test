@@ -60,9 +60,10 @@ check_update() {
         echo "up-to-date"
     fi 
 if [ "$UPDATE_STATUS" == "available" ]; then
-        clear
+        command clear
         printf "Updates Available :)"
-        read -p "Do yout want to update it(Y/N)?" select
+        printf "Do yout want to update it(Y/N)?"
+        read select
         case $select in
             Y|y) update_repo
             ;;
