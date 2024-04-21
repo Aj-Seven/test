@@ -18,7 +18,6 @@ update_repo() {
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
             echo "updated"
-            exit 1
         else
             echo "Failed"
          fi
@@ -52,7 +51,6 @@ monitor_update() {
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
         echo "available"
-        exit 1
     else
         echo "up-to-date"
     fi 
