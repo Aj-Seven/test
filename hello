@@ -103,6 +103,6 @@ while true; do
     main
 done
 
-if UPDATE_STATUS="updated"; then
+if UPDATE_STATUS="updated,Restarting"; then
     exec "$0" "${@}"
 fi
