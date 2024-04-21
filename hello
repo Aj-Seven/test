@@ -36,7 +36,7 @@ hii() {
 }
 
 # Function to check for updates in the repository
-check_update() {
+monitor_update() {
     clear
     REPO_DIR="$PREFIX/share/test"
     SCRIPT_NAME="hello"
@@ -60,8 +60,33 @@ check_update() {
     else
         echo "up-to-date"
     fi 
+} UPDATE_STATUS=$(monitor_update)
+
+check_update() {
+    # Fetch updates forcefully
+    cd "$REPO_DIR" || { UPDATE_STATUS="failed"; return; }
+    git fetch --force origin > /dev/null 2>&1
+
+    # Get the current branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    # Check if the local branch is behind the remote branch
+    if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
+        clear
+        printf "Updates Available :)"
+        read -p "Do yout want to update it(Y/N)?" select
+        case $select in
+            Y|y) update_repo
+            ;;
+            N|n) printf "Returning to main Menu"
+                main
+            ;;
+            *) printf "Invalid Selection, Select in Between Y/N"
+            ;;
+        esac
+    fi
 }
-UPDATE_STATUS=$(check_update)
+
 # Main function
 main() {
 
