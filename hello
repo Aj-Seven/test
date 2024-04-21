@@ -21,9 +21,7 @@ update_repo() {
         else
             echo "Failed"
          fi
-reset
-exec "$0"
-    fi
+fi
 }
 
 # Function to print hello message
@@ -104,3 +102,7 @@ fi
 while true; do
     main
 done
+
+if UPDATE_STATUS="updated"; then
+    exec "$0" "${@}"
+fi
