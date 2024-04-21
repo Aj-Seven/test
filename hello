@@ -28,6 +28,7 @@ fi
 check_update_status() {
     if update_repo; then
         echo "Updated the script, Restart the script to make changes"
+fi
 }
 
 # Function to print hello message
