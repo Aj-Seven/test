@@ -56,6 +56,17 @@ check_update() {
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
         echo "available"
+        clear
+        printf "Updates Available :)"
+        read -p "Do yout want to update it(Y/N)?" select
+        case $select in
+            Y|y) update_repo
+            ;;
+            N|n) printf "Returning to main Menu"
+            ;;
+            *) printf "Invalid Selection, Select in Between Y/N"
+            ;;
+        esac
     else
         echo "up-to-date"
     fi
@@ -70,7 +81,6 @@ main() {
 
     echo "Select an option:"
     echo "1. Check update status"
-    echo "2. Update repository"
     echo "3. hello aj"
     echo "4. hii"
     echo "0. Exit"
@@ -80,10 +90,8 @@ main() {
     case $choice in
         1) UPDATE_STATUS=$(check_update)
             ;;
-        2) UPDATE_STATUS=$(update_repo)
-            ;;
-        3) hello ;;
-        4) hii ;;
+        2) hello ;;
+        3) hii ;;
         0)
             echo "Exiting..."
             exit 0
