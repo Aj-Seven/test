@@ -92,7 +92,7 @@ main() {
 
     echo "Select an option:"
     echo "1. Check update status"
-    echo "3. hello aj8"
+    echo "3. hello aj7"
     echo "4. hii"
     echo "0. Exit"
 
