@@ -72,7 +72,7 @@ check_update() {
         UPDATE_STATUS=$(echo "up-to-date")
     fi 
 }
- UPDATE_STATUS=$(check_update)
+check_status
 # Main function
 main() {
 
