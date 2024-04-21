@@ -1,14 +1,15 @@
 #!/bin/bash
 
+    REPO_DIR="$PREFIX/share/test"
+    SCRIPT_NAME="hello"
+    REPO_URL="https://github.com/Aj-Seven/test"
+    BIN_DIR="$PREFIX/bin"
+
 # Global variable to store update status
 UPDATE_STATUS=""
 
 # Function to update the repository
 update_repo() {
-    REPO_DIR="$PREFIX/share/test"
-    SCRIPT_NAME="hello"
-    BIN_DIR="$PREFIX/bin"
-
     cd "$REPO_DIR" || exit 1
     
     # Run git pull origin and parse the output to show only relevant lines
@@ -36,11 +37,6 @@ hii() {
 
 # Function to check for updates in the repository
 monitor_update() {
-    clear
-    REPO_DIR="$PREFIX/share/test"
-    SCRIPT_NAME="hello"
-    REPO_URL="https://github.com/Aj-Seven/test"
-
     # Check if the repository folder exists
     if [ ! -d "$REPO_DIR" ]; then
         git clone "$REPO_URL" "$REPO_DIR" > /dev/null 2>&1 || { UPDATE_STATUS="failed"; return; }
