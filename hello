@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+
 # Global variable to store update status
 UPDATE_STATUS=""
 
