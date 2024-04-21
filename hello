@@ -55,6 +55,7 @@ monitor_update() {
         echo "up-to-date"
     fi 
 }
+UPDATE_STATUS=$(monitor_update)
 
 check_update() {
     # Fetch updates forcefully
@@ -73,7 +74,8 @@ check_update() {
             Y|y) update_repo
             ;;
             N|n) printf "Returning to main Menu"
-                main
+                    UPDATE_STATUS=$(monitor_update)
+                    main
             ;;
             *) printf "Invalid Selection, Select in Between Y/N"
             ;;
@@ -119,8 +121,6 @@ fi
 # Execute the main function in a loop
 while true; do
 clear
-UPDATE_STATUS=$(monitor_update)
-
     main
 done
 
