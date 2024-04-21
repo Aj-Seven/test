@@ -71,6 +71,7 @@ check_update() {
         esac
     else
         echo "up-to-date"
+        read -p "Return to Main Menu" -r
     fi 
 }
 UPDATE_STATUS=$(check_update)
