@@ -74,7 +74,7 @@ check_update() {
     fi 
 read -r
 }
-UPDATE_STATUS=$(check_update) &
+UPDATE_STATUS=$(check_update)
 # Main function
 main() {
 
