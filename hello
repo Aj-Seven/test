@@ -58,6 +58,7 @@ monitor_update() {
 UPDATE_STATUS=$(monitor_update)
 
 check_update() {
+    clear
     # Fetch updates forcefully
     cd "$REPO_DIR" || { UPDATE_STATUS="failed"; return; }
     git fetch --force origin > /dev/null 2>&1
@@ -68,7 +69,7 @@ check_update() {
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
         clear
-        printf "Updates Available :)"
+        printf "Updates Available :)\n"
         read -p "Do yout want to update it(Y/N)?" select
         case $select in
             Y|y) update_repo
