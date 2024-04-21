@@ -55,6 +55,11 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
+        echo "available"
+    else
+        echo "up-to-date"
+    fi 
+if [ "$UPDATE_STATUS" == "available" ]; then
         clear
         printf "Updates Available :)"
         read -p "Do yout want to update it(Y/N)?" select
@@ -67,9 +72,7 @@ check_update() {
             *) printf "Invalid Selection, Select in Between Y/N"
             ;;
         esac
-    else
-        echo "up-to-date"
-    fi
+fi
 }
  UPDATE_STATUS=$(check_update)
 # Main function
