@@ -59,6 +59,8 @@ check_update() {
     else
         echo "up-to-date"
     fi 
+}
+ UPDATE_STATUS=$(check_update)
 if [ "$UPDATE_STATUS" == "available" ]; then
         command clear
         printf "Updates Available :)"
@@ -74,8 +76,6 @@ if [ "$UPDATE_STATUS" == "available" ]; then
             ;;
         esac
 fi
-}
- UPDATE_STATUS=$(check_update)
 # Main function
 main() {
 
