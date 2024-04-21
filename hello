@@ -71,6 +71,7 @@ check_update() {
     else
         echo "up-to-date"
     fi 
+read -r
 }
 UPDATE_STATUS=$(check_update)
 # Main function
