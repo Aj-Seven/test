@@ -61,21 +61,6 @@ check_update() {
     fi 
 }
  UPDATE_STATUS=$(check_update)
-if [ "UPDATE_STATUS=$(check_update)" == "available" ]; then
-        command clear
-        printf "Updates Available :)"
-        printf "Do yout want to update it(Y/N)?"
-        read select
-        case $select in
-            Y|y) update_repo
-            ;;
-            N|n) printf "Returning to main Menu"
-                main
-            ;;
-            *) printf "Invalid Selection, Select in Between Y/N"
-            ;;
-        esac
-fi
 # Main function
 main() {
 
