@@ -55,8 +55,6 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        echo "available"
-        sleep 0.2
         clear
         printf "Updates Available :)"
         read -p "Do yout want to update it(Y/N)?" select
