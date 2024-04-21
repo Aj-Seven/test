@@ -63,6 +63,7 @@ check_update() {
             Y|y) update_repo
             ;;
             N|n) printf "Returning to main Menu"
+                main
             ;;
             *) printf "Invalid Selection, Select in Between Y/N"
             ;;
