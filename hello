@@ -60,7 +60,8 @@ monitor_update() {
     else
         echo "up-to-date"
     fi 
-} UPDATE_STATUS=$(monitor_update)
+}
+UPDATE_STATUS=$(monitor_update)
 
 check_update() {
     # Fetch updates forcefully
@@ -96,7 +97,7 @@ main() {
 
     echo "Select an option:"
     echo "1. Check update status"
-    echo "3. hello aj"
+    echo "3. hello aj7"
     echo "4. hii"
     echo "0. Exit"
 
