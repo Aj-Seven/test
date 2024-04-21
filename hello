@@ -17,10 +17,17 @@ update_repo() {
             echo "up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
             echo "updated"
+            return 0
+            exit 1
         else
             echo "Failed"
          fi
 fi
+}
+
+check_update_status() {
+    if update_repo; then
+        echo "Updated the script, Restart the script to make changes"
 }
 
 # Function to print hello message
@@ -97,18 +104,10 @@ if [ -z "$PREFIX" ]; then
     PREFIX="/data/data/com.termux/files/usr/"
 fi
 
-# Check if script needs to be updated
-if [ "$UPDATE_STATUS" = "updated" ]; then
-    # Unset the UPDATE_STATUS variable
-    unset UPDATE_STATUS
-    
-    # Re-execute the script from the main function
-    main
-fi
-
 # Execute the main function in a loop
 while true; do
     main
+check_update_status
 done
 
 
