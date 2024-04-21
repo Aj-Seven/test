@@ -55,7 +55,6 @@ monitor_update() {
         echo "up-to-date"
     fi 
 }
-UPDATE_STATUS=$(monitor_update)
 
 check_update() {
     # Fetch updates forcefully
@@ -120,6 +119,8 @@ fi
 # Execute the main function in a loop
 while true; do
 clear
+UPDATE_STATUS=$(monitor_update)
+
     main
 done
 
