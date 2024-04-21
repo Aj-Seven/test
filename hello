@@ -61,7 +61,7 @@ check_update() {
     fi 
 }
  UPDATE_STATUS=$(check_update)
-if [ "$UPDATE_STATUS" == "available" ]; then
+if [ "UPDATE_STATUS=$(check_update)" == "available" ]; then
         command clear
         printf "Updates Available :)"
         printf "Do yout want to update it(Y/N)?"
