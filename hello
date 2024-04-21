@@ -14,9 +14,9 @@ update_repo() {
     # Run git pull origin and parse the output to show only relevant lines
    if output=$(git pull origin $(git rev-parse --abbrev-ref HEAD) 2>&1); then
         if echo "$output" | grep -q 'Already up to date'; then
-            echo "up-to-date"
+            UPDATE_STATUS="up-to-date"
         elif echo "$output" | grep -q 'Updating'; then
-            echo "updated"
+            UPDATE_STATUS="updated"
             echo "Restart the script"
             exit 1
         else
@@ -55,9 +55,21 @@ check_update() {
 
     # Check if the local branch is behind the remote branch
     if [ $(git rev-list HEAD...origin/$current_branch --count) -gt 0 ]; then
-        echo "available"
+        UPDATE_STATUS="available"
+        clear
+        printf "Updates Available :)"
+        read -p "Do yout want to update it(Y/N)?" select
+        case $select in
+            Y|y) update_repo
+            ;;
+            N|n) printf "Returning to main Menu"
+                main
+            ;;
+            *) printf "Invalid Selection, Select in Between Y/N"
+            ;;
+        esac
     else
-        echo "up-to-date"
+        UPDATE_STATUS="up-to-date"
     fi 
 }
  UPDATE_STATUS=$(check_update)
@@ -77,7 +89,7 @@ main() {
     read -p "Enter your choice: " choice
 
     case $choice in
-        1) UPDATE_STATUS=$(check_update)
+        1) check_update
             ;;
         2) hello ;;
         3) hii ;;
